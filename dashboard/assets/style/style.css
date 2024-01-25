@@ -1,0 +1,57 @@
+:root {
+	--green: #038144;
+	--dark-green: #004e28;
+	--secondary: #111111;
+	--dark: #000000;
+	--links-color: #ffffff;
+	--gray: #171717;
+}
+
+@font-face {
+	font-family: main;
+	src: url("../fonts/roboto.ttf");
+}
+
+@font-face {
+	font-family: headings;
+	src: url("../fonts/clemente.ttf");
+}
+
+* {
+	box-sizing: border-box;
+}
+body {
+	overflow: auto;
+	margin: 0;
+	padding: 0;
+	background: var(--dark);
+    font-family: main, sans-serif;
+}
+
+/* Utilities */
+
+.greener {
+	color: var(--green);
+}
+.divider {
+	border-bottom: 1px solid #ffffff44;
+	margin: 15px 0;
+}
+.green {
+	color: var(--green);
+}
+
+.align-center {
+	text-align: center;
+}
+
+.fit-width {
+	width: 100%;
+}
+
+/* Side Menu */
+
+
+
+/* Main content */
+
