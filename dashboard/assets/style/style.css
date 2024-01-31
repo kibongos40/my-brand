@@ -19,6 +19,7 @@
 
 * {
 	box-sizing: border-box;
+	font-family: main, sans-serif;
 }
 
 html{
@@ -71,6 +72,7 @@ main{
 	background: #0c1414;
 	height: 100vh;
 	padding: 20px 10px;
+	overflow-y: auto;
 }
 
 #side h1{
@@ -102,6 +104,26 @@ main{
 	text-align: center;
 	margin-right: 10px;
 }
+
+/* Buttons */
+
+.buttons{
+	background: var(--dark-green);
+	padding: 10px 15px;
+	border-radius: 10px;
+	color: #fff;
+	border: none;
+	outline: none;
+	font-size: 16px !important;
+	cursor: pointer;
+	margin: 20px;
+}
+
+.buttons:hover{
+	background: var(--green);
+}
+
+
 /* Main content */
 
 #content{
@@ -109,7 +131,7 @@ main{
 	background: var(--secondary);
 	height: 100vh;
 	overflow-y: auto;
-	padding: 10px 20px;
+	padding: 40px 20px;
 }
 
 #content .summary{
@@ -155,4 +177,110 @@ main{
 
 #content .summary .item .details strong{
 	padding: 5px 10px;
+}
+
+#content h1,
+#content h2{
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+/* Forms */
+
+#content form{
+	display: flex;
+	flex-direction: column;
+	padding: 30px;
+}
+form .submit{
+	text-align: center;
+	padding: 20px;
+}
+#content form label{
+	font-size: 20px;
+	margin-bottom: 15px;
+}
+
+#content form input,
+#content form textarea{
+	padding: 10px 15px;
+	font-size: 17px;
+	font-family: main, sans-serif;
+	margin-bottom: 7px;
+	border-radius: 5px;
+	border: none;
+	outline: none;
+	background: var(--gray);
+	border: 1px solid var(--green);
+	color: #fff;
+	resize: vertical;
+}
+
+/* Loader */
+
+.loader{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.loader .load{
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 10px solid var(--green);
+	border-bottom: 10px solid transparent;
+	animation: 1s rotater linear infinite;
+}
+@keyframes rotater{
+	0%{
+		transform: rotate(0deg);
+	}
+	100%{
+		transform: rotate(360deg);
+	}
+}
+
+/* Tables */
+
+table{
+	background: var(--gray);
+	width: 100%;
+	display: block;
+}
+table, td, th{
+	border-collapse: collapse;
+}
+table th{
+	font-size: 20px;
+}
+tr td, tr th{
+	text-align: left;
+	padding: 10px;
+}
+tr td:last-child {
+    width: 1%;
+    white-space: nowrap;
+	padding: 10px;
+}
+table thead{
+	border-bottom: 3px solid var(--green);
+}
+table button{
+	padding: 7px 14px;
+	font-size: 1.1rem;
+	background: var(--dark-green);
+	border: none;
+	color: #fff;
+	border-radius: 5px;
+	margin: 5px;
+	cursor: pointer;
+}
+table .actions button:nth-child(2){
+	background-color: #a00;
+}
+table .actions button:hover{
+	background: var(--green);
 }
