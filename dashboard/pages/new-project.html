@@ -1,0 +1,23 @@
+<div class="new-project">
+    <h2>New Project</h2>
+    <form action="#" id="form" name="form" method="post">
+        <label for="project_name">
+            Project Name
+        </label>
+        <textarea type="text" name="project_name" id="project_name" rows="2"></textarea>
+        <label for="project_desc">
+            Project Description
+        </label>
+        <textarea type="text" name="project_desc" id="project_desc" rows="2"></textarea>
+        <label for="project_cover">
+            Cover Picture
+        </label>
+        <input type="url" name="project_cover" id="project_cover">
+        <label for="external_link">External Link</label>
+        <input type="url" name="external_link" id="external_link">
+        <div class="submit">
+            <span class="buttons" onclick="loader('projects')">Back</span>
+            <span class="buttons" onclick="addProject()">Add Project</span>
+        </div>
+    </form>
+</div>

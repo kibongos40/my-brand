@@ -1,0 +1,25 @@
+<div class="new-blog">
+    <h2>Edit Blog</h2>
+    <form action="#" id="form" name="form" method="post">
+        <label for="blog_id">Blog Id</label>
+        <input type="text" name="blog_id" id="blog_id" disabled>
+        <label for="blog_title">
+            Blog title
+        </label>
+        <textarea type="text" name="blog_title" id="intro" rows="2"></textarea>
+        <label for="blog_desc">
+            Short Description
+        </label>
+        <textarea type="text" name="blog_desc" id="blog_desc" rows="2"></textarea>
+        <label for="blog_cover">
+            Cover Picture
+        </label>
+        <input type="url" name="blog_cover" id="blog_cover">
+        <label for="blog_content">Blog Content</label>
+        <textarea name="paragraph" id="blog_content" rows="10"></textarea>
+        <div class="submit">
+            <span class="buttons" onclick="loader('blogs')">Back</span>
+            <span class="buttons" onclick="editBlog()">Edit Blog</span>
+        </div>
+    </form>
+</div>

@@ -34,7 +34,7 @@
     <div id="app">
         <main class="blogs">
             <div class="img-header individual">
-                <h1>How to use JWT authentication in Next.js for noobs</h1>
+                <h1 id="blog_title"></h1>
             </div>
             <div class="blog-content">
                 <div class="share">
@@ -52,115 +52,23 @@
                     </a>
                 </div>
                 <div class="main-content">
-                    <p>
-                        JSON Web Tokens (JWT) provide a secure way to authenticate users in web applications. In this tutorial,
-                        we'll explore how to implement JWT authentication in a Next.js application for beginners.
-                    </p>
-
-                    <h2>Prerequisites</h2>
-
-                    <p>
-                        Before we start, make sure you have Node.js and npm installed on your machine. You can install them
-                        from <a href="https://nodejs.org/" target="_blank">nodejs.org</a>.
-                    </p>
-
-                    <h2>Step 1: Create a Next.js App</h2>
-
-                    <p>
-                        Open your terminal and run the following commands to create a new Next.js app:
-                    </p>
-
-                    <pre>npx create-next-app my-jwt-auth-app
-cd my-jwt-auth-app</pre>
-
-                    <h2>Step 2: Install Dependencies</h2>
-
-                    <p>
-                        Install the necessary packages for JWT authentication. Run the following command in your terminal:
-                    </p>
-
-                    <pre>npm install jsonwebtoken cookie</pre>
-
-                    <h2>Step 3: Implement JWT Authentication</h2>
-
-                    <p>
-                        Now, let's create a utility file for handling JWT authentication. Create a file named
-                        <code>auth.js</code> in the <code>utils</code> folder:
-                    </p>
-
-                    <pre>// utils/auth.js
-const jwt = require('jsonwebtoken');
-
-// Your secret key for signing and verifying tokens
-const secretKey = 'your-secret-key';
-
-// Function to create a JWT token
-const createToken = (user) => {
-    return jwt.sign({ user }, secretKey, { expiresIn: '1h' });
-};
-
-// Function to verify a JWT token
-const verifyToken = (token) => {
-    return jwt.verify(token, secretKey);
-};
-
-module.exports = { createToken, verifyToken };</pre>
-
-                    <p>
-                        This file exports two functions: <code>createToken</code> for generating JWT tokens and
-                        <code>verifyToken</code> for verifying the authenticity of a token.
-                    </p>
-
-                    <h2>Conclusion</h2>
-
-                    <p>
-                        Congratulations! You've successfully implemented JWT authentication in your Next.js app. This is a basic
-                        setup to get you started. Depending on your application's requirements, you may need to integrate with a
-                        database for user management and add additional security measures.
-                    </p>
+                                <div style="padding: 20px;" class="align-center">
+                                    <a href="blogs.html" class="buttons">All Blogs</a>
+                                </div>
+                    <div class="blog" id="blog_content">
+                    </div>
                     <div class="comments">
                         <h2>Comments</h2>
-                        <form action="" method="POST">
+                        <form action="#" name="comments_form">
                             <label for="name">Your Name</label>
                             <input type="text" name="name" id="name" placeholder="Your name or Alias">
                             <label for="comment">Your comment</label>
                             <textarea name="comment" id="comment" rows="5" placeholder="Your comment here"></textarea>
-                            <input type="submit" value="Submit" class="buttons">
+                            <span type="submit" onclick="newComment()" value="Submit" class="buttons">Submit</span>
                         </form>
                         <div class="divider"></div>
-                        <div class="comment">
-                            <strong class="green">John Doe</strong>
-                            <p>
-                                Your blogs are incredibly helpful, and I find 
-                                them both insightful and informative. 
-                                Thank you for your dedication to
-                                creating such quality content.
-                            </p>
+                        <div id="comments">
                         </div>
-                        <div class="comment">
-                            <strong class="green">John Doe</strong>
-                            <p>
-                                Your blogs are incredibly helpful, and I find
-                                them both insightful and informative.
-                                Thank you for your dedication to
-                                creating such quality content.
-                            </p>
-                        </div>
-                        <div class="comment">
-                            <strong class="green">John Doe</strong>
-                            <p>
-                                Your blogs are incredibly helpful, and I find
-                                them both insightful and informative.
-                                Thank you for your dedication to
-                                creating such quality content.
-                            </p>
-                        </div>
-                                    <div class="loader">
-                                        <div class="load" id="loader"></div>
-                                        <a class="buttons" onclick="showLoader()">
-                                            Load More
-                                        </a>
-                                    </div>
                     </div>
                 </div>
             </div>
@@ -170,6 +78,45 @@ module.exports = { createToken, verifyToken };</pre>
         <p>Made with <span style="color: red">&#10084;</span> from Rwanda</p>
     </footer>
     <script src="assets/js/script.js"></script>
+    <script>
+        link = window.location.href;
+        regex = /[\d]+$/;
+        id = link.match(regex)[0];
+        getBlog();
+        getComments(id);
+        function newComment(){
+            let name = comments_form.name.value;
+            let comment = comments_form.comment.value;
+            let newComment = {
+                blog_id: id,
+                name: name,
+                comment: comment,
+                approved: false
+            };
+            if('comments' in localStorage){
+                if(localStorage['comments'].length > 3){
+                    let comments = JSON.parse(localStorage['comments']);
+                    comments.push(newComment);
+                    localStorage['comments'] = JSON.stringify(comments);
+                }
+                else{      
+                    let comments = [];    
+                    comments.push(newComment);
+                    localStorage['comments'] = JSON.stringify(comments);
+                }
+            }
+            else{
+                let comments = [];
+                comments.push(newComment);
+                localStorage['comments'] = JSON.stringify(comments);
+            }
+            comments_form.name.value = "";
+            comments_form.comment.value = "";
+            setTimeout(() => {
+                window.alert("Your comment will be visible when approved");
+            }, 1000);
+        }
+    </script>
 </body>
 
 </html>
