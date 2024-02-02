@@ -427,7 +427,7 @@ footer p {
 main .projects,
 main .blogs-container {
 	display: flex;
-	align-items: center;
+	align-items: stretch;
 	justify-content: space-around;
 	flex-wrap: wrap;
 	padding: 10px;
@@ -488,10 +488,13 @@ main .blogs-container .blog .details .p-desc {
 	margin-bottom: 10px;
 	text-align: justify;
 }
+main .projects .project .details .p-desc p{
+	margin-bottom: 7px !important;
+}
 
 main .projects .project .visit,
 main .blogs-container .blog .visit {
-	padding: 5px 10px;
+	padding: 25px 10px 20px 10px;
 	text-align: right;
 }
 main .projects .project .visit a,
@@ -516,6 +519,7 @@ main .blogs-container .blog .visit a:hover {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	display: none; /* will be visible when it really works */
 }
 .loader .load {
 	width: 30px;
@@ -538,6 +542,9 @@ main .blogs-container .blog .visit a:hover {
 	align-items: flex-start;
 	justify-content: space-around;
 	flex-wrap: wrap;
+}
+.contact-me h2 {
+	margin: 10px 0;
 }
 .contact-me .contact-info {
 	padding: 10px 30px;
@@ -575,9 +582,23 @@ main .blogs-container .blog .visit a:hover {
 		border-width: 0;
 	}
 }
+
+.contact-me .form .received{
+	background: var(--dark-green);
+	padding: 10px 20px;
+	border-radius: 10px;
+	text-align: center;
+	margin: 10px auto;
+	display: none;
+}
+
 .contact-me .form form {
 	display: flex;
 	flex-direction: column;
+}
+
+.contact-me .form form label{
+	margin-top: 10px;
 }
 
 .contact-me .form form input,
@@ -593,7 +614,7 @@ main .blogs-container .blog .visit a:hover {
 	border-radius: 10px;
 }
 .contact-me .form .submit {
-	padding: 10px 20px;
+	padding: 10px 0px;
 }
 
 .contact-me .form .submit button {
@@ -615,6 +636,7 @@ main .blogs-container .blog .visit a:hover {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 	position: relative;
 }
 
@@ -672,6 +694,9 @@ main .blogs-container .blog .visit a:hover {
 	width: calc(100% - 50px);
 	padding: 20px 15px;
 }
+.blog-content .main-content p{
+	padding: 10px;
+}
 pre,
 code {
 	background: var(--secondary);
@@ -680,6 +705,9 @@ code {
 	font-family: monospace;
 	font-size: 15px;
 	overflow-x: auto;
+}
+pre{
+	margin: 10px 20px;
 }
 code {
 	padding: 2px 10px;
@@ -691,6 +719,7 @@ code {
 	border-radius: 5px;
 	padding: 25px;
 	margin-bottom: 1rem;
+	margin: 20px auto;
 }
 .comments h2 {
 	margin: 0;
@@ -724,7 +753,8 @@ code {
 }
 
 .comments .comment p {
-	margin: 15px 0;
+	margin: 15px 0 !important;
+	padding: 0 !important;
 }
 
 /* Log in page */

@@ -57,33 +57,104 @@
                     </div>
                 </div>
                 <div class="form">
+                    <div class="received" id="success">
+                        Your message was received!! In localStorage of course 😂
+                    </div>
                     <h2>
                         Leave a message
                     </h2>
-                    <form action="" method="post">
+                    <form action="" method="post" name="form">
                         <label for="name">Your name</label>
                         <input type="text" name="name" id="name" placeholder="Your name">
+                        <div class="error" id="nameError">
+                        </div>
                         <label for="email">Email</label>
                         <input type="email" name="email" id="email" placeholder="Your Email">
+                        <div class="error" id="emailError">
+                        </div>
                         <label for="message">Message</label>
                         <textarea name="message" id="message" rows="3" placeholder="Leave a message"></textarea>
+                        <div class="error" id="messageError">
+                        </div>
                         <div class="submit align-center">
-                            <button type="submit" class="buttons">Submit</button>
+                            <div type="submit" class="buttons" onclick="sendMessage()"><i class="fa fa-paper-plane"></i> Send</div>
                         </div>
                     </form>
                 </div>
             </div>
         </main>
     </div>
-    <script>
-        function showLoader(){
-            let loader = document.getElementById("loader");
-            loader.classList.toggle("visible")
-        }
-    </script>
     <footer>
         <p>Made with <span style="color: red">&#10084;</span> from Rwanda</p>
     </footer>
+    <style>
+        .error{
+            padding: 5px;
+            color: red;
+        }
+        .visible{
+            display: block !important;
+        }
+    </style>
+    <script>
+        let emailError = document.querySelector("#emailError");
+        let messageError = document.querySelector("#messageError");
+        let nameError = document.querySelector("#nameError");
+        function sendMessage(){
+            let name = form.name.value;
+            let email = form.email.value;
+            let message = form.message.value;
+            if(name.length > 1){
+                nameError.innerText = "";
+                if(/^[\w-\.]+@([\w-])+[\.][\w]{2,4}$/.test(email)){
+                    if(message.length > 5){
+                        messageError.innerText = "";
+                        form.name.value = "";
+                        form.email.value = "";
+                        form.message.value = "";
+                        if('messages' in localStorage){
+                            let messages = [];
+                            if(localStorage['messages'].length > 3){
+                                messages = JSON.parse(localStorage['messages']);
+                            }
+                            let one = {
+                                name: name,
+                                email: email,
+                                message: message
+                            };
+                            messages.push(one);
+                            localStorage['messages'] = (JSON.stringify(messages));
+                        }
+                        else {
+                            let messages = [];
+                            let one = {
+                                name: name,
+                                email: email,
+                                message: message
+                            };
+                            messages.push(one);
+                            localStorage['messages'] = (JSON.stringify(messages));
+                        }
+                        let success = document.querySelector("#success");
+                        success.classList.add("visible");
+                        setTimeout(() => {
+                            success.classList.remove("visible");
+                        }, 3000);
+                    }
+                    else{
+                        messageError.innerText = "Message is too short";
+                    }
+                    emailError.innerText = "";
+                }
+                else{
+                    emailError.innerText = "Invalid Email";
+                }
+            }
+            else{
+                nameError.innerText = "Name must be at least 2 characters!";
+            }
+        }
+    </script>
 </body>
 
 </html>

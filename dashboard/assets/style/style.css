@@ -278,9 +278,12 @@ table button{
 	margin: 5px;
 	cursor: pointer;
 }
-table .actions button:nth-child(2){
+table .actions .delete{
 	background-color: #a00;
 }
 table .actions button:hover{
 	background: var(--green);
+}
+table tr{
+	border-bottom: 1px solid #202020 !important;
 }
