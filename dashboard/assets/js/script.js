@@ -23,6 +23,7 @@ function blogDelete(index){
 
 function editBlog() {
 	let blog_id = Number(form.blog_id.value);
+	let blog_uid = form.blog_uid.value;
 	let blog_title = form.blog_title.value;
 	let blog_content = form.blog_content.value;
 	let blog_cover = form.blog_cover.value;
@@ -34,6 +35,7 @@ function editBlog() {
 			blog_content: blog_content,
 			blog_desc: blog_desc,
 			blog_cover: blog_cover,
+			blog_id: blog_uid
 		};
 		blogs[blog_id] = new_blog;
 		localStorage["blogs"] = JSON.stringify(blogs);
@@ -400,9 +402,11 @@ async function loader(page,timer = 1500) {
 						let blog_cover = blogs[blog_edit_id].blog_cover;
 						let blog_desc = blogs[blog_edit_id].blog_desc;
 						let blog_content = blogs[blog_edit_id].blog_content;
+						let blog_uid = blogs[blog_edit_id].blog_id;
 						form.blog_title.innerHTML = blog_title;
 						form.blog_content.innerHTML = blog_content;
 						form.blog_id.value = blog_edit_id;
+						form.blog_uid.value = blog_uid;
 						form.blog_desc.innerHTML = blog_desc;
 						form.blog_cover.value = blog_cover;
 					}
