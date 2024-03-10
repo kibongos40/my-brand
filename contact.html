@@ -59,13 +59,11 @@
                 <div class="form">
                     <div class="received" id="success">
                         Your message was received!!
-                        Your message was received!!
                     </div>
                     <h2>
                         Leave a message
                     </h2>
-                    <form action="http://localhost:3000/messages" method="post" name="form">
-                    <form action="http://localhost:3000/messages" method="post" name="form">
+                    <form action="" method="post" name="form">
                         <label for="name">Your name</label>
                         <input value="Kibongo" type="text" name="name" id="name" placeholder="Your name">
                         <div class="error" id="nameError">
@@ -79,7 +77,7 @@
                         <div class="error" id="messageError">
                         </div>
                         <div class="submit align-center">
-                            <div type="submit" class="buttons" onclick="sendMessage()"><i class="fa fa-paper-plane"></i> Send</div>
+                            <div class="buttons" onclick="sendMessage()"><i class="fa fa-paper-plane"></i> Send</div>
                         </div>
                     </form>
                 </div>
@@ -106,7 +104,6 @@
                 nameError.innerText = "";
                 if(/^[\w-\.]+@([\w-])+[\.][\w]{2,4}$/.test(email)){
                     if(message.length > 5){
-                        form.submit();
                         messageError.innerText = "";
 
                         let newMessage = {
