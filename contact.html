@@ -58,22 +58,24 @@
                 </div>
                 <div class="form">
                     <div class="received" id="success">
-                        Your message was received!! In localStorage of course 😂
+                        Your message was received!!
+                        Your message was received!!
                     </div>
                     <h2>
                         Leave a message
                     </h2>
-                    <form action="" method="post" name="form">
+                    <form action="http://localhost:3000/messages" method="post" name="form">
+                    <form action="http://localhost:3000/messages" method="post" name="form">
                         <label for="name">Your name</label>
-                        <input type="text" name="name" id="name" placeholder="Your name">
+                        <input value="Kibongo" type="text" name="name" id="name" placeholder="Your name">
                         <div class="error" id="nameError">
                         </div>
                         <label for="email">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Your Email">
+                        <input value="someone@example.com" type="email" name="email" id="email" placeholder="Your Email">
                         <div class="error" id="emailError">
                         </div>
                         <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="3" placeholder="Leave a message"></textarea>
+                        <textarea name="message" id="message" rows="3" placeholder="Leave a message">Sample message goes here</textarea>
                         <div class="error" id="messageError">
                         </div>
                         <div class="submit align-center">
@@ -88,10 +90,6 @@
         <p>Made with <span style="color: red">&#10084;</span> from Rwanda</p>
     </footer>
     <style>
-        .error{
-            padding: 5px;
-            color: red;
-        }
         .visible{
             display: block !important;
         }
@@ -100,7 +98,7 @@
         let emailError = document.querySelector("#emailError");
         let messageError = document.querySelector("#messageError");
         let nameError = document.querySelector("#nameError");
-        function sendMessage(){
+        async function sendMessage(){
             let name = form.name.value;
             let email = form.email.value;
             let message = form.message.value;
@@ -108,38 +106,33 @@
                 nameError.innerText = "";
                 if(/^[\w-\.]+@([\w-])+[\.][\w]{2,4}$/.test(email)){
                     if(message.length > 5){
+                        form.submit();
                         messageError.innerText = "";
-                        form.name.value = "";
-                        form.email.value = "";
-                        form.message.value = "";
-                        if('messages' in localStorage){
-                            let messages = [];
-                            if(localStorage['messages'].length > 3){
-                                messages = JSON.parse(localStorage['messages']);
+
+                        let newMessage = {
+                            "name": name,
+                            "email": email,
+                            "message": message
+                        };
+                        let send = await fetch("https://kibongo.com/api/v1/messages/",{
+                            method: 'POST',
+                            body: JSON.stringify(newMessage),
+                            headers:{
+                                'Content-Type':'application/json'
                             }
-                            let one = {
-                                name: name,
-                                email: email,
-                                message: message
-                            };
-                            messages.push(one);
-                            localStorage['messages'] = (JSON.stringify(messages));
+                        });
+                        let res = await send.json();
+                        if(res.status == "success"){
+                            form.message.value = "";
+                            let success = document.querySelector("#success");
+                            success.classList.add("visible");
+                            setTimeout(() => {
+                                success.classList.remove("visible");
+                            }, 3000);
                         }
-                        else {
-                            let messages = [];
-                            let one = {
-                                name: name,
-                                email: email,
-                                message: message
-                            };
-                            messages.push(one);
-                            localStorage['messages'] = (JSON.stringify(messages));
+                        else{
+                            window.alert(res.message);
                         }
-                        let success = document.querySelector("#success");
-                        success.classList.add("visible");
-                        setTimeout(() => {
-                            success.classList.remove("visible");
-                        }, 3000);
                     }
                     else{
                         messageError.innerText = "Message is too short";

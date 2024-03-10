@@ -43,7 +43,19 @@ body {
 .align-center {
 	text-align: center;
 }
-
+.perfect-center{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.h-100{
+	min-height: 50vh;
+}
+.error{
+	padding: 5px;
+	color: red;
+}
 .fit-width {
 	width: 100%;
 }
@@ -324,7 +336,7 @@ footer p {
 }
 .about-me .info img {
 	max-width: 300px;
-	border-radius: 300px;
+	border-radius: 10px;
 	margin: 30px;
 }
 .about-me .info .socials {
@@ -432,7 +444,6 @@ main .blogs-container {
 	flex-wrap: wrap;
 	padding: 10px;
 }
-
 main .projects .project,
 main .blogs-container .blog {
 	width: 33%;
@@ -652,7 +663,6 @@ main .blogs-container .blog .visit a:hover {
 
 .blogs .individual h1 {
 	padding: 30px;
-	border: 5px solid #fff;
 	margin: 30px 10px;
 	font-size: 30px;
 	background: rgba(0, 0, 0, 0.4);
