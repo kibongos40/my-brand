@@ -1,23 +1,26 @@
 <div class="new-blog">
     <h2>New Blog</h2>
-    <form action="#" id="form" name="form" method="post">
+    <form action="#" id="form" name="newBlogForm" method="post">
         <label for="blog_title">
             Blog title
         </label>
-        <textarea type="text" name="blog_title" id="blog_title" rows="2"></textarea>
+        <textarea type="text" name="title" id="title" rows="2"></textarea>
         <label for="blog_desc">
             Short Description
         </label>
-        <textarea type="text" name="blog_desc" id="blog_desc" rows="2"></textarea>
+        <textarea type="text" name="description" id="description" rows="2"></textarea>
         <label for="blog_cover">
             Cover Picture
         </label>
-        <input type="url" name="blog_cover" id="blog_cover">
+        <input type="file" name="picture" id="picture">
         <label for="blog_content">Blog Content</label>
-        <textarea name="paragraph" id="blog_content" rows="10"></textarea>
+        <textarea name="content" class="summernote" rows="10"></textarea>
         <div class="submit">
             <span class="buttons" onclick="loader('blogs')">Back</span>
             <span class="buttons" onclick="addBlog()">Add Blog</span>
         </div>
     </form>
 </div>
+    <script>
+        editor();
+    </script>
