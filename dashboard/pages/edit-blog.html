@@ -1,23 +1,24 @@
 <div class="new-blog">
     <h2>Edit Blog</h2>
-    <form action="#" id="form" name="form" method="post">
-        <label for="blog_id">Blog Id</label>
-        <input type="text" name="blog_id" id="blog_id" disabled>
-        <input type="text" name="blog_uid" id="blog_uid" disabled>
+    <form action="#" id="form" name="editBlogForm" method="post">
         <label for="blog_title">
             Blog title
         </label>
-        <textarea type="text" name="blog_title" id="intro" rows="2"></textarea>
+        <textarea type="text" name="title" id="title" rows="2"></textarea>
+        <label for="blog_title">
+            Blog ID
+        </label>
+        <textarea type="text" name="id" id="id" rows="2" readonly></textarea>
         <label for="blog_desc">
             Short Description
         </label>
-        <textarea type="text" name="blog_desc" id="blog_desc" rows="2"></textarea>
+        <textarea type="text" name="description" id="description" rows="2"></textarea>
         <label for="blog_cover">
             Cover Picture
         </label>
-        <input type="url" name="blog_cover" id="blog_cover">
+        <input type="file" name="picture" id="picture">
         <label for="blog_content">Blog Content</label>
-        <textarea name="paragraph" id="blog_content" rows="10"></textarea>
+        <textarea name="content" class="summernote" rows="10"></textarea>
         <div class="submit">
             <span class="buttons" onclick="loader('blogs')">Back</span>
             <span class="buttons" onclick="editBlog()">Edit Blog</span>

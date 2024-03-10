@@ -8,8 +8,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        if(!sessionStorage['token']){
+            window.location = '../secure-login.html';
+        }
+        else if(sessionStorage['token'].length < 10){
+            window.location = '../secure-login.html';
+        }
+    </script>
+
+<!-- Summernote -->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 </head>
 <body>
+    <noscript>
+        <h1>You need to enable javascript to use this page</h1>
+        <style>
+            h1{
+                color: white;
+                text-align: center;
+            }
+            main{
+                display: none;
+            }
+        </style>
+    </noscript>
     <main>
         <div id="side">
             <h1 class="greener">Dashboard</h1>
@@ -18,7 +47,7 @@
                     <i class="fa fa-home"></i>
                     <span>Home</span>
                 </a>
-                <a class="link"  href="#about-me" id="about" onclick="loader('about')">  
+                <!-- <a class="link"  href="#about-me" id="about" onclick="loader('about')">  
                     <i class="fa fa-info"></i>
                     <span>About Me</span>
                 </a>
@@ -29,7 +58,7 @@
                 <a class="link"  href="#projects" id="mywork" onclick="loader('projects')">
                     <i class="fa fa-cogs"></i>
                     <span>Projects</span>
-                </a>
+                </a> -->
                 <a class="link" id="blog"  href="#blogs" onclick="loader('blogs')">
                     <i class="fa fa-newspaper"></i>
                     <span>Blogs</span>
@@ -53,20 +82,20 @@
             <div class="summary">
                 <div class="item">
                     <div class="icon">
-                        <i class="fa fa-eye"></i>
+                        <i class="fa fa-comments"></i>
                     </div>
                     <div class="details">
-                        <strong>1000</strong>
-                        <strong class="green">Visitors</strong>
+                        <strong id="comments_count"><i class="fa fa-circle-notch fa-spin"></i></strong>
+                        <strong class="green">Comments</strong>
                     </div>
                 </div>
                 <div class="item">
                     <div class="icon">
-                        <i class="fa fa-user-group"></i>
+                        <i class="fa fa-newspaper"></i>
                     </div>
                     <div class="details">
-                        <strong>500</strong>
-                        <strong class="green">Subscribers</strong>
+                        <strong id="blogs_count"><i class="fa fa-circle-notch fa-spin"></i></strong>
+                        <strong class="green">Articles</strong>
                     </div>
                 </div>
                 <div class="item">
@@ -74,7 +103,7 @@
                         <i class="fa fa-comments"></i>
                     </div>
                     <div class="details">
-                        <strong>1000</strong>
+                        <strong id="messages_count"><i class="fa fa-circle-notch fa-spin"></i></strong>
                         <strong class="green">Messages</strong>
                     </div>
                 </div>
@@ -82,5 +111,29 @@
         </div>
     </main>
     <script src="assets/js/script.js"></script>
+    <script>
+        async function details(){
+            let messages_count = document.getElementById("messages_count");
+            let blogs_count = document.getElementById("blogs_count");
+            let comments_count = document.getElementById("comments_count");
+            let token = sessionStorage['token'];
+            let req = await fetch("https://kibongo.com/api/v1/details",{
+                headers: {
+                    "Authorization":`Bearer ${token}`
+                }
+            });
+            let res = await req.json();
+            console.log(res);
+            if(res.status == "success"){
+                blogs_count.innerHTML = res.message.blogs;
+                comments_count.innerHTML = res.message.comments;
+                messages_count.innerHTML = res.message.messages;
+            }
+            else{
+                console.log(res.status);
+            }
+        }
+        details();
+    </script>
 </body>
 </html>

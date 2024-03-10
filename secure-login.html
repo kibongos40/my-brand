@@ -35,7 +35,7 @@
         <main>
             <div class="heading">
                 <h1 class="align-center">Log in</h1>
-                <form action="dashboard" method="" id="login-form">
+                <form action="" id="login-form" name="form">
                     <div class="i-group">
                         <i class="fa fa-user"></i>
                         <input required type="text" name="username" id="username" placeholder="Username">
@@ -44,13 +44,68 @@
                         <i class="fa fa-lock"></i>
                         <input required type="password" name="password" id="password" placeholder="Password">
                     </div>
-                    <button type="submit" value="Log in" id="submit">
+                    <div id="error" class="error align-center" style="word-wrap: break-word; overflow: auto;font-size: 1rem;font-family: sans-serif;">
+                    </div>
+                    <div type="submit" class="align-center" value="Log in" id="submit" onclick="login()">
                         Log in &nbsp; <i class="fa fa-sign-in"></i>
-                    </button>
+                    </div>
                 </form>
             </div>
         </main>
     </div>
+    <script>
+        sessionStorage.clear();
+        let error = document.getElementById("error");
+        let submit = document.getElementById("submit");
+        let normal =  `
+            Log in &nbsp; <i class="fa fa-sign-in"></i>
+        `;
+        let loading = `<i class="fa fa-circle-notch fa-spin"></i>`;
+        async function login(){
+            error.innerHTML = "";
+            submit.innerHTML = loading;
+            let username = form.username.value;
+            let password = form.password.value;
+            if(username.length < 1 || password.length < 1){
+                setTimeout(() => {
+                    error.innerText = "Username and Password required";
+                }, 1000);
+            }
+            else{
+                error.innerText = "";
+
+                let credentials = {
+                    "username": username,
+                    "password": password
+                }
+
+                let request = await fetch("https://kibongo.com/api/v1/login",{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(credentials)
+                });
+
+                let res = await request.json();
+                if(res.status == 'success'){
+                    setTimeout(() => {
+                        error.innerText = "";
+                        sessionStorage['token'] = res.token;
+                        window.location = 'dashboard'
+                    }, 1000);
+                }
+                if(res.status == 'fail'){
+                    setTimeout(() => {
+                        error.innerText = res.message;
+                    }, 1000);
+                }
+            }
+            setTimeout(() => {
+                submit.innerHTML = normal;
+            }, 1000);
+        }
+    </script>
     <footer>
         <p>Made with <span style="color: red">&#10084;</span> from Rwanda</p>
     </footer>

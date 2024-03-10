@@ -6,7 +6,9 @@
 	--links-color: #ffffff;
 	--gray: #171717;
 }
-
+.note-editable{
+	color: white !important;
+}
 @font-face {
 	font-family: main;
 	src: url("../fonts/roboto.ttf");

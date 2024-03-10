@@ -34,7 +34,13 @@
     <div id="app">
         <main class="blogs">
             <div class="img-header individual">
-                <h1 id="blog_title"></h1>
+                <h1 id="blog_title">
+                                            <div class="align-center">
+                                                <i class="fa fa-circle-notch fa-spin"></i>
+                                                <br>
+                                                Loading
+                                            </div>
+                </h1>
             </div>
             <div class="blog-content">
                 <div class="share">
@@ -52,18 +58,21 @@
                     </a>
                 </div>
                 <div class="main-content">
-                                <div style="padding: 20px;" class="align-center">
-                                    <a href="blogs.html" class="buttons">All Blogs</a>
-                                </div>
                     <div class="blog" id="blog_content">
+                        <div class="perfect-center h-100" id="load">
+                            <i class="fa fa-spin fa-circle-notch"></i><br>
+                            Loading
+                        </div>
                     </div>
                     <div class="comments">
                         <h2>Comments</h2>
-                        <form action="#" name="comments_form">
+                        <form action="#" name="form">
                             <label for="name">Your Name</label>
                             <input type="text" name="name" id="name" placeholder="Your name or Alias">
                             <label for="comment">Your comment</label>
                             <textarea name="comment" id="comment" rows="5" placeholder="Your comment here"></textarea>
+                            <div class="error" id="error">
+                            </div>
                             <span type="submit" onclick="newComment()" value="Submit" class="buttons">Submit</span>
                         </form>
                         <div class="divider"></div>
@@ -79,42 +88,89 @@
     </footer>
     <script src="assets/js/script.js"></script>
     <script>
-        link = window.location.href;
-        regex = /[\d]+$/;
-        id = link.match(regex)[0];
-        getBlog();
-        getComments(id);
-        function newComment(){
-            let name = comments_form.name.value;
-            let comment = comments_form.comment.value;
-            let newComment = {
-                blog_id: id,
-                name: name,
-                comment: comment,
-                approved: false
-            };
-            if('comments' in localStorage){
-                if(localStorage['comments'].length > 3){
-                    let comments = JSON.parse(localStorage['comments']);
-                    comments.push(newComment);
-                    localStorage['comments'] = JSON.stringify(comments);
+        let blog_content = document.getElementById("blog_content");
+        let blog_title = document.getElementById("blog_title");
+        // Get the blog
+                let url = window.location.href;
+                let link = new URL(url);
+                let id = link.searchParams.get("id");
+
+        async function blog(){
+            if(id.length > 1){
+                let response = await fetch("https://kibongo.com/api/v1/blogs/"+id);
+                let json = await response.json();
+                if(json.status == "success"){
+                    let title = json.message.title;
+                    let content = json.message.content;
+                    let picture = json.message.picture;
+                    setTimeout(() => {
+                        blog_content.innerHTML = content;
+                        blog_title.innerHTML = title;
+                    }, 1000);
+                    if(json.message.length == 0){
+                        blog_title.innerHTML == "Blog not found";
+                    }
+
+                    let comments = await fetch("https://kibongo.com/api/v1/comments/"+id);
+                    let res = await comments.json();
+                    if(res.status == "success" && res.message.length > 0){
+                        setTimeout(() => {
+                            res.message.forEach(comment => {
+                                item = `
+                                    <div class="comment">
+                                        <strong class="green">${comment.userName}</strong>
+                                        <p>
+                                            ${comment.comment}
+                                        </p>
+                                    </div>`;
+                                document.getElementById("comments").innerHTML += item;
+                            });
+                        }, 2000);
+                    }
                 }
-                else{      
-                    let comments = [];    
-                    comments.push(newComment);
-                    localStorage['comments'] = JSON.stringify(comments);
+                else{
+                    let load = document.getElementById("load");
+                    blog_title.innerHTML = response.status;
+                    load.innerHTML = `
+                        <h1>${json.message}</h1>
+                    `;
                 }
+            }
+        }
+        blog();
+
+        async function newComment(){
+            let name = form.name.value;
+            let comment = form.comment.value;
+            if(name.length < 2 || comment.length < 5){
+                let error = "Name required. Comment must over 5 characters";
+                document.getElementById("error").innerHTML = error;
             }
             else{
-                let comments = [];
-                comments.push(newComment);
-                localStorage['comments'] = JSON.stringify(comments);
+                document.getElementById("error").innerHTML = "";
+
+                // Sending the comment
+                    let userComment = {
+                        "userName": name,
+                        "comment": comment,
+                        "blogId": id
+                    };
+                    let sendComment = await fetch("https://kibongo.com/api/v1/comments/",{
+                        method: "POST",
+                        headers:{
+                            'Content-Type':'application/json'
+                        },
+                        body: JSON.stringify(userComment)
+                    });
+                    let res = await sendComment.json();
+                    if(res.status == "success"){
+                        window.alert(res.message);
+                        form.comment.value = "";
+                    }
+                    else{
+                        window.alert(res.message);
+                    }
             }
-            comments_form.name.value = "";
-            comments_form.comment.value = "";
-            setTimeout(() => {
-                window.alert("Your comment will be visible when approved");
-            }, 1000);
         }
     </script>
 </body>
