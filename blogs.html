@@ -37,6 +37,13 @@
                 <h1>My Blog</h1>
             </div>
             <div class="blogs-container" id="blogs_container">
+                <h3>
+                    <div class="align-center">
+                        <i class="fa fa-circle-notch fa-spin"></i>
+                        <br><br>
+                        Loading
+                    </div>
+                </h3>
             </div>
             <div class="loader">
                 <div class="load" id="loader"></div>
@@ -51,7 +58,44 @@
     </footer>
     <script src="assets/js/script.js"></script>
     <script>
-        myBlogs();
+        let allBlogs = [];
+        async function getBlog(){
+            let container = document.getElementById("blogs_container");
+            let response = await fetch("https://kibongo.com/api/v1/blogs");
+            let json = await response.json();
+            if(json.status == "success"){
+                allBlogs = json.message;
+                console.log(allBlogs);
+                if(json.message.length > 0){
+                    setTimeout(() => {
+                        container.innerHTML = "";
+                        allBlogs.forEach(blog => {
+                            let item = `
+                                <div class="blog">
+                                    <div class="picture">
+                                        <img src="https://kibongo.com/images/blogs/${blog.picture}" alt="Blog Cover picture" class="fit-width" />
+                                    </div>
+                                    <div class="details">
+                                        <p class="p-name greener">${blog.title}</p>
+                                        <p class="p-desc">
+                                            ${blog.description}
+                                        </p>
+                                    </div>
+                                    <div class="visit">
+                                        <a href="blog.html?id=${blog._id}" rel="noopener noreferrer">Read More
+                                            &nbsp;<i class="fa fa-arrow-right"></i></a>
+                                    </div>
+                                </div>`;
+                            container.innerHTML += item;
+                        });
+                    }, 2000);
+                }
+                if (json.message.length == 0) {
+                    container.innerHTML = "<h3 class='align-center'><i style='font-size: 30px' class='fa fa-robot'></i><br><br>No blogs available yet</h3>";
+                }
+            }
+        }
+        getBlog();
     </script>
 </body>
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" name="form">
+        <input type="file" name="file" id="file">
+        <span onclick="send()">Submit</span>
+    </form>
+    <script>
+        async function send(){
+            let file = form.file.files[0];
+            console.log(file);
+            let data = new FormData();
+            data.append("file", file);
+            let req = await fetch("https://kibongo.com/api/v1/test",{
+                method: 'POST',
+                body: data
+            });
+            let res = await req.json();
+            console.log(res);
+        }
+    </script>
+</body>
+</html>
